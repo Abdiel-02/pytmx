@@ -46,7 +46,7 @@ class Polygon(BaseObject):
         super().__init__(data)
 
     @property
-    def points(self) -> Tuple[Tuple[int]]:
+    def points(self) -> Tuple[Tuple[float]]:
         return tuple([
             (float(p.split(",")[0]), float(p.split(",")[1]))
             for p in self._data.find("polygon").attrib.get("points").split(" ")

@@ -1,7 +1,8 @@
 from xml.etree import ElementTree
 from typing import Optional, Tuple, Union
 from tmx.base import BaseLayer
-from .extras import Color
+from tmx.const import ObjectsTypes
+from .extras import Color, Object, Ellipse, Point, Polygon, Text
 from .extras.data import Data
 
 class Layer(BaseLayer):
@@ -62,6 +63,18 @@ class ObjectGroup(BaseLayer):
     def draworder(self) -> str:
         return self._data.attrib.get("draworder", "topdown")
 
-    def get_objects(self) -> None:
+    def get_objects(self) -> Optional[Tuple[Union[Object, Ellipse, Point, Polygon, Text]]]:
+        result = list()
+
         for child in self._data.findall("object"):
-            pass
+            if child.find(ObjectsTypes.ELLIPSE) != None:
+                result.append(Ellipse(child))
+            elif child.find("point") != None:
+                result.append(Point(child))
+            elif child.find("polygon") != None:
+                result.append(Polygon(child))
+            else:
+                result.append(Object(child))
+
+        return tuple(result)
+        
