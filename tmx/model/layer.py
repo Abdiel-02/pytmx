@@ -39,6 +39,34 @@ class Layer(BaseLayer):
     def width(self) -> int:
         return int(self._data.attrib.get("width"))
 
+class ImageLayer(BaseLayer):
+    def __init__(self, data: ElementTree.Element) -> None:
+        super().__init__(data)
+        self._child = data.find("image", None)
+
+    @property
+    def source(self) -> Optional[str]:
+        return self._child.attrib.get("source") \
+            if self._child != None else None
+
+    @property
+    def width(self) -> Optional[Union[int, float]]:
+        try: return int(self._child.attrib.get("width"))
+        except ValueError: return float(self._child.attrib.get("width"))
+        except: return None
+
+    @property
+    def height(self) -> Optional[Union[int, float]]:
+        try: return int(self._child.attrib.get("height"))
+        except ValueError: return float(self._child.attrib.get("height"))
+        except: return None
+
+    @property
+    def trans_color(self) -> Color:
+        return Color(self._child.attrib.get("trans")) \
+            if self._child.attrib.get("trans", None) != None \
+            else None
+
 class ObjectGroup(BaseLayer):
     def __init__(self, data: ElementTree.Element) -> None:
         super().__init__(data)
