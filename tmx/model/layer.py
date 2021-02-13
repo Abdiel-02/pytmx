@@ -62,15 +62,6 @@ class ObjectGroup(BaseLayer):
     def draworder(self) -> str:
         return self._data.attrib.get("draworder", "topdown")
 
-    @property
-    def height(self) -> Union[int, float]:
-        try: return int(self._child.attrib.get("height"))
-        except ValueError: return float(self._child.attrib.get("height"))
-
-    @property
-    def width(self) -> Union[int, float]:
-        try: return int(self._child.attrib.get("width"))
-        except ValueError: return float(self._child.attrib.get("width"))
-
     def get_objects(self) -> None:
-        pass
+        for child in self._data.findall("object"):
+            pass

@@ -1,7 +1,7 @@
 from typing import Dict, Optional, Tuple
 from xml.etree import ElementTree
 from tmx.error import TmxFileNotFoundError, TmxParseError
-from tmx.model.extras import Color
+from tmx.base import Color
 from tmx.model.cast import Cast
 from tmx.model.layer import ImageLayer, Layer, ObjectGroup
 from tmx.model.tileset import Tileset
@@ -60,8 +60,8 @@ class Tmx:
     def properties(self) -> Optional[Dict[str, str]]:
         return {
             prop.attrib.get("name"):prop.attrib.get("value")
-            for prop in self._data.find("properties").iter("property")
-        } if self._data.find("properties") != None else None
+            for prop in self._map.find("properties").iter("property")
+        } if self._map.find("properties") != None else None
 
     def get_tilesets(self, path: str) -> Tuple[Tileset]:
         result = [Tileset(data, path) for data in self._map.findall("tileset")]

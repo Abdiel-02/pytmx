@@ -1,6 +1,6 @@
 from xml.etree import ElementTree
 from typing import Dict, Optional, Union
-from tmx.model.extras import Color
+from .color import Color
 
 class BaseLayer:
     def __init__(self, data: ElementTree.Element) -> None:
