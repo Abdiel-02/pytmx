@@ -1,6 +1,7 @@
 from xml.etree import ElementTree
 from typing import Dict, Optional, Tuple, Union
 from tmx.base import BaseObject, Color
+from tmx.const import ObjectsTypes
 from .image import Image
 
 ########## OBJECTS GROUP SUBMODELS ##########
@@ -120,6 +121,18 @@ class Grid:
     def height(self) -> int:
         return int(self._data.attrib.get("height"))
 
+class TileOffset:
+    def __init__(self, data: ElementTree.Element):
+        self._data = data
+
+    @property
+    def x(self) -> int:
+        return int(self._data.attrib.get("x"))
+
+    @property
+    def y(self) -> int:
+        return int(self._data.attrib.get("y"))
+
 class Frame:
     def __init__(self, data: ElementTree.Element):
         self._data = data
@@ -155,8 +168,20 @@ class TileObjecGroup:
         return self._data.attrib.get("draworder")
 
     @property
-    def objects(self) -> None:
-        return None
+    def objects(self) -> Optional[Tuple[Union[Object, Ellipse, Point, Polygon]]]:
+        result = list()
+
+        for child in self._data.findall("object"):
+            if child.find(ObjectsTypes.ELLIPSE) != None:
+                result.append(Ellipse(child))
+            elif child.find(ObjectsTypes.POINT) != None:
+                result.append(Point(child))
+            elif child.find(ObjectsTypes.POLYGON) != None:
+                result.append(Polygon(child))
+            else:
+                result.append(Object(child))
+
+        return tuple(result)
 
 class Tile:
     def __init__(self, data: ElementTree.Element) -> None:
@@ -183,8 +208,8 @@ class Tile:
             for prop in self._data.find("properties").iter("property")
         } if self._data.find("properties") != None else None
 
-    @property
-    def get_objectGroup(self) -> None:
-        return None
+    def get_objectGroup(self) -> TileObjecGroup:
+        return TileObjecGroup(self._data.find("objectgroup")) \
+            if self._data.find("objectgroup") != None else None
 
 #############################################

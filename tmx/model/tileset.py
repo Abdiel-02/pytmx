@@ -3,7 +3,7 @@ from xml.etree import ElementTree
 from typing import Dict, Optional, Tuple
 from tmx.base.color import Color
 from tmx.error import TmxFileNotFoundError, TmxParseError
-from tmx.model.extras import Grid, Tile
+from tmx.model.extras import Grid, Tile, TileOffset
 
 class Tileset:
     def __init__(self, data: ElementTree.Element, path: str):
@@ -48,8 +48,9 @@ class Tileset:
         return self._data.attrib.get("objectalignment", None)
 
     @property
-    def tile_offset(self) -> Optional[Tuple[int]]:
-        return None
+    def tile_offset(self) -> Optional[TileOffset]:
+        return TileOffset(self._child.find("tileoffset")) \
+            if self._child.find("tileoffset") != None else None
 
     @property
     def grid(self) -> Grid:
