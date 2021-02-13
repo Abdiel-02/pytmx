@@ -14,6 +14,7 @@ class ObjectsTypes:
     ELLIPSE = "ellipse"
     POINT = "point"
     POLYGON = "polygon"
+    TEXT = "text"
 
 class RenderOrder:
     RIGHT_DOWN = "right-down"

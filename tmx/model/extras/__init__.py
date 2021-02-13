@@ -59,19 +59,19 @@ class Text(BaseObject):
 
     @property
     def bold(self) -> bool:
-        return bool(self._data.attrib.get("bold", 0))
+        return bool(self._data.find("text").attrib.get("bol", 0))
 
     @property
     def color(self) -> Color:
-        return Color(self._data.attrib.get("color"))
+        return Color(self._data.find("text").attrib.get("color"))
 
     @property
     def fontfamily(self) -> str:
-        return self._data.attrib.get("fontfamily")
+        return self._data.find("text").attrib.get("fontfamily")
 
     @property
     def halign(self) -> str:
-        return self._data.attrib.get("halign")
+        return self._data.find("text").attrib.get("halign")
 
     @property
     def height(self) -> Union[int, float]:
@@ -81,7 +81,7 @@ class Text(BaseObject):
 
     @property
     def pixelsize(self) -> int:
-        return int(self._data.attrib.get("pixelsize"))
+        return int(self._data.find("text").attrib.get("pixelsize"))
 
     @property
     def text(self) -> str:
@@ -89,7 +89,7 @@ class Text(BaseObject):
 
     @property
     def valign(self) -> str:
-        return self._data.attrib.get("valign")
+        return self._data.find("text").attrib.get("valign")
 
     @property
     def wrap(self) -> bool:

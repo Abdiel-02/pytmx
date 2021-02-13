@@ -69,10 +69,12 @@ class ObjectGroup(BaseLayer):
         for child in self._data.findall("object"):
             if child.find(ObjectsTypes.ELLIPSE) != None:
                 result.append(Ellipse(child))
-            elif child.find("point") != None:
+            elif child.find(ObjectsTypes.POINT) != None:
                 result.append(Point(child))
-            elif child.find("polygon") != None:
+            elif child.find(ObjectsTypes.POLYGON) != None:
                 result.append(Polygon(child))
+            elif child.find(ObjectsTypes.TEXT) != None:
+                result.append(Text(child))
             else:
                 result.append(Object(child))
 
