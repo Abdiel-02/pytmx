@@ -1,6 +1,9 @@
 import base64
 import numpy as np
+from gzip import decompress as gzdecompress
 from typing import Dict, List, Tuple, Union
+from zlib import decompress as zldecompress
+from zstandard import decompress as zsdecompress
 from tmx.model.cast import Cast, Position
 from tmx.model.layer import Layer
 from tmx.model.extras import Tile
@@ -14,14 +17,11 @@ def csv(data: str) -> List[int]:
 
 def decompres(data: bytes, format: str) -> bytes:
     if format == CompresionFormat.GZIP:
-        import gzip
-        return gzip.decompress(b64decode(data))
+        return gzdecompress(b64decode(data))
     elif format == CompresionFormat.ZLIB:
-        import zlib
-        return zlib.decompress(b64decode(data))
+        return zldecompress(b64decode(data))
     elif format == CompresionFormat.ZSTANDARD:
-        import zstandard
-        return zstandard.decompress(b64decode(data))
+        return zsdecompress(b64decode(data))
     else:
         return b64decode(data)
 
