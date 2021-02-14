@@ -51,19 +51,16 @@ def get_gid(value: int) -> int:
         Flipped_Flags.FLIPPED_DIAGONALLY_FLAG.value
     )
 
-def get_pos(row: int, col: int, layer: Layer, tilewidth: int, tileheight: int) -> Position:
-    offset_x = layer.offsetx if layer.offsetx else 0
-    offset_y = layer.offsety if layer.offsety else 0
-
+def get_pos(row: int, col: int, layer: Layer, tile: Tile, tilewidth: int, tileheight: int) -> Position:
     pos = dict(
-        x = col * tilewidth,
-        y = row * tileheight,
-        top = (row * tileheight) + offset_y,
-        left = (col * tilewidth) + offset_x,
-        bottom = (row * tileheight) + offset_y + tileheight,
-        right = (col * tilewidth) + offset_x + tilewidth
+        x = abs((col * tilewidth) + layer.offsetx),
+        y = abs(((row * tileheight) + tileheight + layer.offsety) - tile.image.height),
+        top = abs(((row * tileheight) + tileheight + layer.offsety) - tile.image.height),
+        left = abs((col * tilewidth) + layer.offsetx),
+        bottom = abs((row * tileheight) + layer.offsety + tileheight),
+        right = abs((col * tilewidth) + layer.offsetx + tile.image.width)
     )
-
+    
     return Position(pos)
 
 def compile(tile: Tile, pos: Position, flipping: Tuple[bool]) -> Dict[str, str]:
@@ -103,7 +100,7 @@ def build(layer: Layer, tilesets: Tuple[Layer], tilewidth: int, tileheight: int)
             if len(result) < 1: continue
             
             tile = result[0]
-            pos = get_pos(row, col, layer, tilewidth, tileheight)
+            pos = get_pos(row, col, layer, tile, tilewidth, tileheight)
             flipping = get_flipping(value)
 
             cast.append(Cast(compile(tile, pos, flipping)))
