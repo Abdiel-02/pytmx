@@ -85,7 +85,7 @@ class Text(BaseObject):
 
     @property
     def text(self) -> str:
-        return self._data.text
+        return self._data.find("text").text
 
     @property
     def valign(self) -> str:
