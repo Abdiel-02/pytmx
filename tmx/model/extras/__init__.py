@@ -208,6 +208,10 @@ class Tile:
             for prop in self._data.find("properties").iter("property")
         } if self._data.find("properties") != None else None
 
+    @property
+    def type(self) -> Optional[str]:
+        return self._data.attrib.get("type", None)
+
     def get_objectGroup(self) -> TileObjecGroup:
         return TileObjecGroup(self._data.find("objectgroup")) \
             if self._data.find("objectgroup") != None else None
