@@ -6,24 +6,40 @@ from tmx.error import TmxFileNotFoundError, TmxParseError
 from tmx.model.extras import Grid, Tile, TileOffset
 
 class Tileset:
-    def __init__(self, data: ElementTree.Element, path: str):
-        self._data = data
+    def __init__(self, data: ElementTree.Element, path: str, internal: bool = True):
+        if internal:
+            self._data = data
 
-        file = os.path.join(path, self._data.attrib.get("source"))
+            file = os.path.join(path, self._data.attrib.get("source"))
+            try:
+                self._child = ElementTree.parse(file).getroot()
+            except FileNotFoundError as ex:
+                raise TmxFileNotFoundError(ex.filename)
+            except ElementTree.ParseError as ex:
+                raise TmxParseError(ex)
+        else:
+            self._data = None
+            self._child = data
+
+    @classmethod
+    def from_file(cls, file: str, path: str):
         try:
-            self._child = ElementTree.parse(file).getroot()
+            data = ElementTree.parse(file).getroot()
+            return cls(data, path, False)
         except FileNotFoundError as ex:
             raise TmxFileNotFoundError(ex.filename)
         except ElementTree.ParseError as ex:
             raise TmxParseError(ex)
     
     @property
-    def firstgid(self) -> int:
-        return int(self._data.attrib.get("firstgid"))
+    def firstgid(self) -> Optional[int]:
+        return int(self._data.attrib.get("firstgid")) \
+            if self._data != None else None
 
     @property
-    def source(self) -> str:
-        return self._data.attrib.get("source")
+    def source(self) -> Optional[str]:
+        return self._data.attrib.get("source") \
+            if self._data != None else None
 
     @property
     def name(self) -> str:
@@ -45,7 +61,8 @@ class Tileset:
 
     @property
     def objectalignment(self) -> Optional[str]:
-        return self._data.attrib.get("objectalignment", None)
+        return self._data.attrib.get("objectalignment", None) \
+            if self._data != None else None
 
     @property
     def tile_offset(self) -> Optional[TileOffset]:
