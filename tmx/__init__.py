@@ -90,4 +90,14 @@ class Tmx:
         else:
             tilesets = self.get_tilesets()
             return build(layer, tilesets, self.tilewidth, self.tileheight)
+
+    @classmethod
+    def load_tileset(cls, file: str, path: str) -> Tileset:
+        try:
+            data = ElementTree.parse(file).getroot()
+            return Tileset(data, path, False)
+        except FileNotFoundError as ex:
+            raise TmxFileNotFoundError(ex.filename)
+        except ElementTree.ParseError as ex:
+            raise TmxParseError(ex)
     

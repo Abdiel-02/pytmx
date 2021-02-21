@@ -20,16 +20,6 @@ class Tileset:
         else:
             self._data = None
             self._child = data
-
-    @classmethod
-    def from_file(cls, file: str, path: str):
-        try:
-            data = ElementTree.parse(file).getroot()
-            return cls(data, path, False)
-        except FileNotFoundError as ex:
-            raise TmxFileNotFoundError(ex.filename)
-        except ElementTree.ParseError as ex:
-            raise TmxParseError(ex)
     
     @property
     def firstgid(self) -> Optional[int]:
