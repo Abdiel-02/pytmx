@@ -4,9 +4,9 @@ from gzip import decompress as gzdecompress
 from typing import Dict, List, Tuple, Union
 from zlib import decompress as zldecompress
 from zstandard import decompress as zsdecompress
-from tmx.model.cast import Cast, Position
-from tmx.model.layer import Layer
-from tmx.model.extras import Tile
+from .model.cast import Cast, Position
+from .model.layer import Layer
+from .model.extras import Tile
 from .const import CompresionFormat, EncodingFormat, Flipped_Flags
 
 def b64decode(data: bytes) -> bytes:

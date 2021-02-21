@@ -1,7 +1,7 @@
 from xml.etree import ElementTree
 from typing import Optional, Tuple, Union
-from tmx.base import BaseLayer
-from tmx.const import ObjectsTypes
+from ..base import BaseLayer
+from ..const import ObjectsTypes
 from .extras import Color, Object, Ellipse, Point, Polygon, Text
 from .extras.data import Data
 

@@ -1,9 +1,9 @@
 import os
 from xml.etree import ElementTree
 from typing import Dict, Optional, Tuple
-from tmx.base.color import Color
-from tmx.error import TmxFileNotFoundError, TmxParseError
-from tmx.model.extras import Grid, Tile, TileOffset
+from ..base.color import Color
+from ..error import TmxFileNotFoundError, TmxParseError
+from ..model.extras import Grid, Tile, TileOffset
 
 class Tileset:
     def __init__(self, data: ElementTree.Element, path: str, internal: bool = True):

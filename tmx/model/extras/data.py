@@ -1,6 +1,6 @@
 from xml.etree import ElementTree
 from typing import Union
-from tmx.const import EncodingFormat
+from ...const import EncodingFormat
 
 class Data:
     def __init__(self, data: ElementTree.Element):

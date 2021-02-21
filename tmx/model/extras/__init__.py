@@ -1,7 +1,7 @@
 from xml.etree import ElementTree
 from typing import Dict, Optional, Tuple, Union
-from tmx.base import BaseObject, Color
-from tmx.const import ObjectsTypes
+from ...base import BaseObject, Color
+from ...const import ObjectsTypes
 from .image import Image
 
 ########## OBJECTS GROUP SUBMODELS ##########
